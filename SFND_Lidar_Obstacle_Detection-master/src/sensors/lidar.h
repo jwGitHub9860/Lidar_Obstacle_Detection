@@ -75,7 +75,7 @@ struct Lidar
 	std::vector<Ray> rays;
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
 	std::vector<Car> cars;
-	Vect3 position;
+	Vect3 position;			// origin
 	double groundSlope;
 	double minDistance;
 	double maxDistance;
