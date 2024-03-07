@@ -1,7 +1,7 @@
 // PCL lib Functions for processing point clouds 
 
 #include "processPointClouds.h"
-
+#include <pcl/segmentation/sac_segmentation.h>
 
 //constructor:
 template<typename PointT>
@@ -71,9 +71,9 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     auto startTime = std::chrono::steady_clock::now();
 	
     // TODO:: Fill in this function to find inliers for the cloud.
-    pcl::PointCloud<PointT> seg;        //segmentation object
-    pcl::PointIndices::Ptr inliers (new pcl::PointIndices ());      // separates pointCloud into 2 pieces
-    pcl::ModelCoefficients::Ptr coefficients (new pcl::ModelCoefficients ());
+    pcl::SACSegmentation<PointT> seg;        //segmentation object
+    pcl::PointIndices::Ptr inliers {new pcl::PointIndices ()};      // separates pointCloud into 2 pieces
+    pcl::ModelCoefficients::Ptr coefficients {new pcl::ModelCoefficients ()};
 
     seg.setOptimizeCoefficients(true);
     seg.setModelType (pcl::SACMODEL_PLANE);
@@ -86,7 +86,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     seg.segment(*inliers, *coefficients);   // performs processing
     if (inliers->indices.size() == 0)
     {
-        cout << "Could not estimate a planar model for the given dataset." << endl;
+        std::cout << "Could not estimate a planar model for the given dataset." << std::endl;
     }
     
     std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult = SeparateClouds(inliers, cloud);     // segment result
