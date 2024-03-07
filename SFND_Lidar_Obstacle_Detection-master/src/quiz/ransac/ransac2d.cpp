@@ -63,7 +63,7 @@ pcl::visualization::PCLVisualizer::Ptr initScene()
 
 std::unordered_set<int> Ransac(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int maxIterations, float distanceTol)
 {
-	std::unordered_set<int> inliersResult;
+	std::unordered_set<int> inliersResult;	//holds BEST inliers
 	srand(time(NULL));
 	
 	// TODO: Fill in this function
@@ -77,6 +77,54 @@ std::unordered_set<int> Ransac(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int ma
 
 	// Return indicies of inliers from fitted line with most inliers
 	
+	while (maxIterations--)		// run for max number of iterations (while "max iterations > 0")
+	{
+		// Randomly pick two points
+
+		unordered_set<int> inliers;		// pick unique values ONLY
+		while (inliers.size() < 2)
+		{
+			inliers.insert(rand()%(cloud->points.size()));	// randomly inserts a point
+		}
+		float x_1, y_1, x_2, y_2;
+
+		auto itr = inliers.begin();
+		x_1 = cloud->points[*itr].x;
+		y_1 = cloud->points[*itr].y;
+		itr++;
+		x_2 = cloud->points[*itr].x;
+		y_2 = cloud->points[*itr].y;
+
+		float A = (y_1 - y_2);
+		float B = (x_2 - x_1);
+		float C = (x_1*y_2 - x_2*y_1);
+
+		for (int index = 0; index < cloud->points.size(); index++)	// iterates through all points
+		{
+			if (inliers.count(index) > 0)	// checks if point isn't ALREADY accounted for
+			{
+				continue;
+			}
+			pcl::PointXYZ point = cloud->points[index];
+			float x_3 = point.x;
+			float y_3 = point.y;
+
+			float d = fabs(A*x_3 + B*y_3 + C) / sqrt(A*A + B*B);	// distance
+
+			if (d <= distanceTol)
+			{
+				inliers.insert(index);
+			}
+		}
+		
+		if (inliers.size() > inliersResult.size())	// checks size of inliers
+		{
+			inliersResult = inliers;
+		}
+		
+	}
+	
+
 	return inliersResult;
 
 }
