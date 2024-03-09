@@ -81,20 +81,21 @@ std::unordered_set<int> Ransac(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int ma
 	{
 		// Randomly pick two points
 
-		unordered_set<int> inliers;		// pick unique values ONLY
+		std::unordered_set<int> inliers;		// pick unique values ONLY
 		while (inliers.size() < 2)
 		{
 			inliers.insert(rand()%(cloud->points.size()));	// randomly inserts a point
 		}
 		float x_1, y_1, x_2, y_2;
 
-		auto itr = inliers.begin();
-		x_1 = cloud->points[*itr].x;
+		auto itr = inliers.begin();		// points at beginning of inliers
+		x_1 = cloud->points[*itr].x;	//(cloud)->{points}[dereferences pointer -> INDEX into (cloud)].x value for {points}
 		y_1 = cloud->points[*itr].y;
 		itr++;
 		x_2 = cloud->points[*itr].x;
 		y_2 = cloud->points[*itr].y;
 
+		// (y1 - y2)x + (x2 - x1)y + (x1 * y2 - x2 * y1) = 0
 		float A = (y_1 - y_2);
 		float B = (x_2 - x_1);
 		float C = (x_1*y_2 - x_2*y_1);
@@ -105,11 +106,11 @@ std::unordered_set<int> Ransac(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int ma
 			{
 				continue;
 			}
-			pcl::PointXYZ point = cloud->points[index];
-			float x_3 = point.x;
-			float y_3 = point.y;
+			pcl::PointXYZ point = cloud->points[index];		// calculate distance & see if within threshold
+			float x_3 = point.x;	// show x value
+			float y_3 = point.y;	// show y value
 
-			float d = fabs(A*x_3 + B*y_3 + C) / sqrt(A*A + B*B);	// distance
+			float d = fabs(A*x_3 + B*y_3 + C) / sqrt(A*A + B*B);	// Distance:	d = |Ax + By + C| / sqrt(A^2 + B^2)
 
 			if (d <= distanceTol)
 			{
