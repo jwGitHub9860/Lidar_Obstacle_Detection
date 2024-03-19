@@ -238,7 +238,8 @@ int main ()
 
 	for(int index = 0; index < cloud->points.size(); index++)
 	{
-		pcl::PointXYZ point = cloud->points[index];
+		//pcl::PointXYZ point = cloud->points[index];
+		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = CreateData3D();		// Create data
 		if(inliers.count(index))
 			cloudInliers->points.push_back(point);
 		else
