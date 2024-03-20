@@ -200,8 +200,9 @@ std::unordered_set<int> RansacPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, i
 			pcl::PointXYZ point = cloud->points[index];		// calculate distance & see if within threshold
 			float x_3 = point.x;	// show x value
 			float y_3 = point.y;	// show y value
+			float z_3 = point.y;	// show z value
 
-			float d = fabs(A*x_3 + B*y_3 + C) / sqrt(A*A + B*B);	// Distance:	d = |Ax + By + C| / sqrt(A^2 + B^2)
+			float d = fabs(A*x_3 + B*y_3 + C*z_3 + D) / sqrt(A*A + B*B + C*C);	// Distance:	d = |Ax + By + Cz + D| / sqrt(A^2 + B^2 + C^2)
 
 			if (d <= distanceTol)
 			{
