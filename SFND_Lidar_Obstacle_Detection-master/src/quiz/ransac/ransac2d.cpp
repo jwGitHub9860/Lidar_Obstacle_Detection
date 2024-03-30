@@ -171,25 +171,25 @@ std::unordered_set<int> RansacPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, i
 		z_3 = cloud->points[*itr].z;
 
 		// v_1 = < x2 − x1, y2 − y1, z2 − z1 >
-		float v_1_coor_1 = x2 - x1;
-		float v_1_coor_2 = y2 - y1;
-		float v_1_coor_3 = z2 - z1;
+		float v_1_coor_1 = x_2 - x_1;
+		float v_1_coor_2 = y_2 - y_1;
+		float v_1_coor_3 = z_2 - z_1;
 
 		// v_2 = < x3 − x1, y3 − y1, z3 − z1 >
-		float v_2_coor_1 = x3 - x1;
-		float v_2_coor_2 = y3 - y1;
-		float v_2_coor_3 = z3 - z1;
+		float v_2_coor_1 = x_3 - x_1;
+		float v_2_coor_2 = y_3 - y_1;
+		float v_2_coor_3 = z_3 - z_1;
 
 		// v1 X v2 = < (y2 − y1)(z3 − z1) - (z2 − z1)(y3 − y1), (z2 − z1)(x3 − x1) - (x2 − x1)(z3 − z1), (x2 − x1)(y3 − y1) - (y2 − y1)(x3 − x1) >
-		float i = (y2 - y1)(z3 - z1) - (z2 - z1)(y3 - y1);
-		float j = (z2 - z1)(x3 - x1) - (x2 - x1)(z3 - z1);
-		float k = (x2 - x1)(y3 - y1) - (y2 - y1)(x3 - x1);
+		float i = ((y_2 - y_1) * (z_3 - z_1)) - ((z_2 - z_1) * (y_3 - y_1));
+		float j = ((z_2 - z_1) * (x_3 - x_1)) - ((x_2 - x_1) * (z_3 - z_1));
+		float k = ((x_2 - x_1) * (y_3 - y_1)) - ((y_2 - y_1) * (x_3 - x_1));
 
 		// ix + jy + kz - (ix1 + jy1 + kz1) = 0
 		float A = i;
 		float B = j;
 		float C = k;
-		float D = - (ix1 + jy1 + kz1);
+		float D = - (i*x_1 + j*y_1 + k*z_1);
 
 		for (int index = 0; index < cloud->points.size(); index++)	// iterates through all points
 		{
@@ -240,11 +240,11 @@ int main ()
 	for(int index = 0; index < cloud->points.size(); index++)
 	{
 		//pcl::PointXYZ point = cloud->points[index];
-		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = CreateData3D();		// Create data
+		pcl::PointXYZ point = CreateData3D();		// Create data
 		if(inliers.count(index))
-			cloudInliers->points.push_back(point);
+			cloudInliers->points.push_back(point);		// "point" --> "cloud"
 		else
-			cloudOutliers->points.push_back(point);
+			cloudOutliers->points.push_back(point);		// "point" --> "cloud"
 	}
 
 
