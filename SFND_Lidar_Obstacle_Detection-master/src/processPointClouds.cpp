@@ -74,7 +74,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     pcl::SACSegmentation<PointT> seg;        //segmentation object
     pcl::PointIndices::Ptr inliers {new pcl::PointIndices ()};      // separates pointCloud into 2 pieces
     pcl::ModelCoefficients::Ptr coefficients {new pcl::ModelCoefficients ()};
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = CreateData3D();     // Create data
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = CreateData3D();     // Create data
 
     seg.setOptimizeCoefficients(true);
     seg.setModelType (pcl::SACMODEL_PLANE);
