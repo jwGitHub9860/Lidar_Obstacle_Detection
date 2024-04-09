@@ -104,13 +104,13 @@ int main ()
 	//std::vector<std::vector<float>> points = { {-6.2,7}, {-6.3,8.4}, {-5.2,7.1}, {-5.7,6.3} };
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = CreateData(points);
 
-	KdTree* tree = new KdTree;
+	KdTree* tree = new KdTree;		// create KdTree
   
     for (int i=0; i<points.size(); i++) 
-    	tree->insert(points[i],i); 
+    	tree->insert(points[i],i); 		// insert points into tree
 
   	int it = 0;
-  	render2DTree(tree->root,viewer,window, it);
+  	render2DTree(tree->root,viewer,window, it);		// shows previous KdTree with points
   
   	std::cout << "Test Search" << std::endl;
   	std::vector<int> nearby = tree->search({-6,7},3.0);

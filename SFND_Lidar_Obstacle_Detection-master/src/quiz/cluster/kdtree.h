@@ -40,7 +40,20 @@ struct KdTree
 	{
 		// TODO: Fill in this function to insert a new point into the tree
 		// the function should create a new node and place correctly with in the root 
+		point.insert(point, id);
 
+		if (point == NULL)
+		{
+			//point =
+		}
+		else if (id < point->data)
+		{
+			insert(point->left, id);
+		}
+		else
+		{
+			insert(point->right, id);
+		}
 	}
 
 	// return a list of point ids in the tree that are within distance of target
