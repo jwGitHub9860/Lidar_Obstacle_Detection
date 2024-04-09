@@ -55,7 +55,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     extract.setInputCloud (cloud);          // reference cloud
     extract.setIndices (inliers);
     extract.setNegative (true);        // FALSE - extract all the points in the pointcloud that are indicated by the "inliers" parameter       TRUE - extract points that are not in the inliers
-    extract.filter (*cloud);                // obstacle cloud
+    extract.filter (obstCloud);                // obstacle cloud       (EXTRACT "CLOUD" ITSELF (obstCloud), NOT CLOUD "POINTER")
 
     std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult(obstCloud,planeCloud);    // generates obstacle cloud
 
