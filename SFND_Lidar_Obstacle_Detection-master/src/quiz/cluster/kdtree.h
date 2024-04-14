@@ -36,23 +36,21 @@ struct KdTree
 		delete root;
 	}
 
-	void insert(std::vector<float> point, int id)
+	void insert(Node **node, uint depth, std::vector<float> point, int id)		// changed from "void insert(std::vector<float> point, int id)" to "void insert(Node **node, uint depth, std::vector<float> point, int id)"
 	{
 		// TODO: Fill in this function to insert a new point into the tree
 		// the function should create a new node and place correctly with in the root 
-		point.insert(point, id);
-
-		if (point == NULL)
+		if (*node == NULL)
 		{
-			//point =
+			node = new Node(point, id);
 		}
-		else if (id < point->data)
+		else if (id < (*node)->id)
 		{
-			insert(point->left, id);
+			insert(&(*node)->left, id);
 		}
 		else
 		{
-			insert(point->right, id);
+			insert(&(*node)->right, id);
 		}
 	}
 
