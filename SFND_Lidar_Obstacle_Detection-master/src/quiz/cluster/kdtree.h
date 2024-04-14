@@ -40,7 +40,7 @@ struct KdTree
 	{
 		// TODO: Fill in this function to insert a new point into the tree
 		// the function should create a new node and place correctly with in the root 
-		if (*node == NULL)
+		if (*node == NULL)		// Tree is empty
 		{
 			node = new Node(point, id);
 		}
